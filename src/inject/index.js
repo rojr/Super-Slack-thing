@@ -1,1 +1,3 @@
-alert('i am inject')
+setTimeout(function(){
+  require('./ui')
+}, 2500);
