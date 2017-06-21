@@ -13,5 +13,6 @@ document.addEventListener('readystatechange', function stateChange () {
   if (document.readyState === 'complete') {
     document.removeEventListener('readystatechange', stateChange)
     require('./ipc')(node)
+    require('./ui')
   }
 })
