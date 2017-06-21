@@ -1,5 +1,9 @@
 const {app, BrowserWindow} = require('electron')
 
+require('electron-context-menu')({
+  showInspectElement: true
+})
+
 const url = require('url')
 
 // Keep a global reference of the window object, if you don't, the window will

@@ -23,6 +23,7 @@
     "standard": "^10.0.2"
   },
   "dependencies": {
+    "electron-context-menu": "^0.9.1",
     "jquery": "^3.2.1"
   }
 }
