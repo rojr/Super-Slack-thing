@@ -1,7 +1,4 @@
-const node = {
-  require: global.require,
-  process: global.process
-}
+const electron = global.require('electron')
 
 delete global.require
 delete global.module
@@ -12,6 +9,6 @@ delete global.process
 document.addEventListener('readystatechange', function stateChange () {
   if (document.readyState === 'complete') {
     document.removeEventListener('readystatechange', stateChange)
-    require('./ipc')(node)
+    require('./ipc')(electron)
   }
 })

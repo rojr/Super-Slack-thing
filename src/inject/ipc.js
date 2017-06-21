@@ -1,5 +1,5 @@
-module.exports = node => {
-  const {ipcRenderer} = node.require('electron')
+module.exports = electron => {
+  const {ipcRenderer} = electron
 
   console.log('i am ipc')
   ipcRenderer.on('PNIG', () => {
