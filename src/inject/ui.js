@@ -2,17 +2,23 @@ $('body').on('DOMNodeInserted', '#menu', function(event){
   if (event.target.id != 'menu') {
     return;
   }
+  setTimeout(function(){
+    var menuItems = $('#menu_items')
 
-  var menuItems = $(this).find('#menu_items')
-  var scriptsButton = $('<li id="extra-scripts" class="flexpane_menu_item" data-tab-id="extra-scripts">' +
-      '<a>' +
-        '<i class="ts_icon ts_icon_emoji_celebration"></i>' +
-        'Scripts' +
-      '</a>' +
-      '</li>');
+    if (!menuItems.closest('#menu').hasClass('flex_menu')) {
+      return;
+    }
 
-  scriptsButton.click(function() {
-    alert('hahha u hacker');
-  });
-  menuItems.append(scriptsButton);
+    var scriptsButton = $('<li id="extra-scripts" class="flexpane_menu_item" data-tab-id="extra-scripts">' +
+        '<a>' +
+          '<i class="ts_icon ts_icon_emoji_celebration"></i>' +
+          'Scripts' +
+        '</a>' +
+        '</li>');
+
+    scriptsButton.click(function() {
+      alert('hahha u hacker');
+    });
+    menuItems.append(scriptsButton);
+  }, 1);
 });
