@@ -1,5 +1,3 @@
-const webview = document.getElementById('slack')
-
-webview.addEventListener('dom-ready', () => {
+module.exports = webview => {
   webview.openDevTools()
-})
+}

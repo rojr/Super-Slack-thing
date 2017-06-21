@@ -2,10 +2,15 @@
 <title>slack!</title>
 <webview
   id="slack"
+  nodeintegration
   preload="./build/inject.js"
   src="https://gcdtech.slack.com"
   style="position: absolute; top: 0; left: 0; right: 0; bottom: 0">
 </webview>
 <script>
-  require('./src/devtools.js')
+  const webview = document.querySelector('#slack')
+  webview.addEventListener('dom-ready', () => {
+    require('./src/devtools.js')(webview)
+    require('./src/ipc.js')(webview)
+  })
 </script>
