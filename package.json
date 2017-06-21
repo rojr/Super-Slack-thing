@@ -4,7 +4,7 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "electron .",
+    "start": "browserify src/inject/index.js > build/inject.js && electron .",
     "lint": "standard",
     "lint:fix": "standard --fix"
   },
@@ -19,6 +19,7 @@
   "author": "GitHub",
   "license": "CC0-1.0",
   "devDependencies": {
+    "browserify": "^14.4.0",
     "electron": "~1.6.2",
     "standard": "^10.0.2"
   },
