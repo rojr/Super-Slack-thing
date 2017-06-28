@@ -1,5 +1,3 @@
-// TODO "not activating without teardown"
-
 const Icon = require('../Icon')
 
 const Heading = ({title, hide}) =>

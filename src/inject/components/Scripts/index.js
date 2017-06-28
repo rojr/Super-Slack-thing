@@ -87,7 +87,7 @@ module.exports = class Scripts extends React.PureComponent {
       window.alert('i simply will not activate without a teardown')
       return
     }
-    run(script.setup)
+    run(script.setup, script.id)
   }
 
   deactivate (id) {
@@ -97,7 +97,8 @@ module.exports = class Scripts extends React.PureComponent {
         [id]: false
       }
     }))
-    run(this.state.scripts[id].teardown)
+    const script = this.state.scripts[id]
+    run(script.teardown, script.id)
   }
 
   onChange (id, change) {
