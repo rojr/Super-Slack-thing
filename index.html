@@ -9,8 +9,5 @@
 </webview>
 <script>
   const webview = document.querySelector('#slack')
-  webview.addEventListener('dom-ready', () => {
-    require('./src/devtools.js')(webview)
-    require('./src/ipc.js')(webview)
-  })
+  require('./src')(webview)
 </script>
