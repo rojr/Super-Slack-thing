@@ -1,7 +1,14 @@
+const domReadyModules = [
+  require('./ipc'),
+  require('./contextMenu'),
+  require('./newWindow')
+]
+
 module.exports = webview => {
   require('./titleBar')(webview)
   webview.addEventListener('dom-ready', () => {
-    require('./ipc')(webview)
-    require('./contextMenu')(webview)
+    domReadyModules.forEach(module =>
+      typeof module === 'function' && module(webview)
+    )
   })
 }
