@@ -1,7 +1,10 @@
 const STORE_KEY_SCRIPTS = 'scripts'
-
 const Panel = require('./Panel')
+const {React} = window
 const run = require('../../run-script')
+const {filter} = require('../../util')
+
+const generateId = () => Math.random().toString(36).slice(2)
 
 module.exports = class Scripts extends React.PureComponent {
   constructor (props) {
@@ -37,6 +40,8 @@ module.exports = class Scripts extends React.PureComponent {
     this.activate = this.activate.bind(this)
     this.deactivate = this.deactivate.bind(this)
     this.onChange = this.onChange.bind(this)
+    this.add = this.add.bind(this)
+    this.remove = this.remove.bind(this)
   }
 
   componentDidMount () {
@@ -68,11 +73,31 @@ module.exports = class Scripts extends React.PureComponent {
     })
   }
 
-  save () {
+  save (callback) {
     this.setState(state => {
       window.localStorage.setItem(STORE_KEY_SCRIPTS, JSON.stringify(state.scripts))
       return {editing: null}
-    })
+    }, callback)
+  }
+
+  add () {
+    const id = generateId()
+    this.setState(state => {
+      return {
+        scripts: {
+          ...state.scripts,
+          [id]: {id}
+        }
+      }
+    }, this.save)
+  }
+
+  remove (id) {
+    this.setState(state => {
+      return {
+        scripts: filter(script => script.id !== id, state.scripts)
+      }
+    }, this.save)
   }
 
   activate (id) {
@@ -130,6 +155,8 @@ module.exports = class Scripts extends React.PureComponent {
         deactivate={this.deactivate}
         activeScripts={activeScripts}
         onChange={this.onChange}
+        add={this.add}
+        remove={this.remove}
       />
     )
   }

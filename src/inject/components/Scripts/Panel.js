@@ -1,8 +1,9 @@
 const Icon = require('../Icon')
+const {React} = window
 
 const Heading = ({title, hide}) =>
   // TODO add close func to button
-  <div className='heading' tabindex='-1'>
+  <div className='heading' tabIndex='-1'>
     <div className='heading_row'>
       <h2 className='heading_text overflow_ellipsis'>{title}</h2>
       <button
@@ -10,9 +11,8 @@ const Heading = ({title, hide}) =>
         aria-label='Close Right Sidebar'
         title='Close Right Sidebar'
         type='button'
-        onClick={hide}
-      >
-        <Icon name='times'/>
+        onClick={hide}>
+        <Icon name='times' />
       </button>
     </div>
   </div>
@@ -22,9 +22,8 @@ const Button = ({icon, onClick, style, iconStyle, children}) =>
     style={style}
     type='button'
     className='btn btn_outline'
-    onClick={onClick}
-  >
-    {icon && <Icon name={icon} style={iconStyle}/>}
+    onClick={onClick}>
+    {icon && <Icon name={icon} style={iconStyle} />}
     {children}
   </button>
 
@@ -50,7 +49,8 @@ const ScriptsPanelItem = ({
   enabled,
   activate,
   deactivate,
-  edit
+  edit,
+  remove
 }) =>
   <div>
     <div style={flexEqualSpace}>
@@ -58,14 +58,19 @@ const ScriptsPanelItem = ({
         {label}
       </strong>
       <div>
-        <Button onClick={edit}>
+        <Button onClick={remove}>
+          remove
+        </Button>
+        <Button
+          style={{marginLeft: 10}}
+          onClick={edit}>
           edit
         </Button>
         <Switch
           enabled={enabled}
           activate={activate}
           deactivate={deactivate}
-          marginLeft={true}
+          marginLeft
         />
       </div>
     </div>
@@ -74,8 +79,10 @@ const ScriptsPanelItem = ({
     </div>
   </div>
 
+const labelStyle = {margin: '2em 0'}
+
 const ScriptEditor = ({
-  script: {teardown, setup, id},
+  script: {label, description, teardown, setup, id},
   save,
   activate,
   deactivate,
@@ -85,8 +92,25 @@ const ScriptEditor = ({
   <div>
     {/* TODO reduce duplication */}
     {/* TODO run teardown and disable when edit begins */}
-    {/* TODO allow changing title and description */}
-    <label style={{margin: '2em 0'}}>
+    <label style={labelStyle}>
+      <strong>Name</strong>
+      <input
+        value={label}
+        onChange={({target: {value: label}}) =>
+          onChange(id, {label})
+        }
+      />
+    </label>
+    <label style={labelStyle}>
+      <strong>Description</strong>
+      <input
+        value={description}
+        onChange={({target: {value: description}}) =>
+          onChange(id, {description})
+        }
+      />
+    </label>
+    <label style={labelStyle}>
       <strong>Setup</strong>
       <textarea
         style={{width: '100%'}}
@@ -96,7 +120,7 @@ const ScriptEditor = ({
         }
       />
     </label>
-    <label style={{margin: '2em 0'}}>
+    <label style={labelStyle}>
       <strong>Teardown</strong>
       <textarea
         style={{width: '100%'}}
@@ -113,8 +137,27 @@ const ScriptEditor = ({
       enabled={enabled}
       activate={() => activate(id)}
       deactivate={() => deactivate(id)}
-      marginLeft={true}
+      marginLeft
     />
+  </div>
+
+const ScriptsList = ({scripts, activeScripts, add, edit, activate, deactivate, remove}) =>
+  <div>
+    {
+      Object.values(scripts).map(script =>
+        <ScriptsPanelItem
+          key={script.id}
+          label={script.label}
+          description={script.description}
+          enabled={activeScripts[script.id]}
+          edit={() => edit(script.id)}
+          activate={() => activate(script.id)}
+          deactivate={() => deactivate(script.id)}
+          remove={() => remove(script.id)}
+        />
+      )
+    }
+    <Button icon='plus' onClick={add}>Add</Button>
   </div>
 
 module.exports = class ScriptsPanel extends React.PureComponent {
@@ -137,35 +180,48 @@ module.exports = class ScriptsPanel extends React.PureComponent {
   }
 
   render () {
-    const {shown, hide, edit, save, scripts, editing, activate, deactivate, activeScripts, onChange} = this.props
+    const {
+      shown,
+      add,
+      remove,
+      hide,
+      edit,
+      save,
+      scripts,
+      editing,
+      activate,
+      deactivate,
+      activeScripts,
+      onChange
+    } = this.props
     const script = scripts[editing]
-    // TODO "➕ add" button
     return (
       <div className={`panel ${shown ? 'active' : ''}`} id='scripts_tab'>
-        <Heading title={editing && script ? `Editing ${script.label}` : 'Snoot snoot!'} close={hide}/>
+        <Heading title={editing && script ? `Editing ${script.label}` : 'Snoot snoot!'} close={hide} />
         <div id='scripts_scroller' className='flex_content_scroller'>
           <div style={{padding: '1em'}}>
-            {editing ||
-              Object.values(scripts).map(script =>
-                <ScriptsPanelItem
-                  key={script.id}
-                  label={script.label}
-                  description={script.description}
+            {editing
+              ? (
+                <ScriptEditor
+                  script={script}
+                  save={save}
+                  activate={activate}
+                  deactivate={deactivate}
                   enabled={activeScripts[script.id]}
-                  edit={() => edit(script.id)}
-                  activate={() => activate(script.id)}
-                  deactivate={() => deactivate(script.id)}
-                />)
-            }
-            {editing &&
-              <ScriptEditor
-                script={script}
-                save={save}
-                activate={activate}
-                deactivate={deactivate}
-                enabled={activeScripts[script.id]}
-                onChange={onChange}
-              />
+                  onChange={onChange}
+                />
+              )
+              : (
+                <ScriptsList
+                  scripts={scripts}
+                  activeScripts={activeScripts}
+                  edit={edit}
+                  activate={activate}
+                  deactivate={deactivate}
+                  add={add}
+                  remove={remove}
+                />
+              )
             }
           </div>
         </div>
