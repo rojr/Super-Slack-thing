@@ -157,7 +157,7 @@ const ScriptsList = ({scripts, activeScripts, add, edit, activate, deactivate, r
         />
       )
     }
-    <Button icon='plus' onClick={add}>Add</Button>
+    <Button icon='plus' style={labelStyle} onClick={add}>Add</Button>
   </div>
 
 module.exports = class ScriptsPanel extends React.PureComponent {

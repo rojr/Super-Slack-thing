@@ -2,7 +2,7 @@ const STORE_KEY_SCRIPTS = 'scripts'
 const Panel = require('./Panel')
 const {React} = window
 const run = require('../../run-script')
-const {filter} = require('../../util')
+const {filter} = require('lodash/fp')
 
 const generateId = () => Math.random().toString(36).slice(2)
 
@@ -89,7 +89,10 @@ module.exports = class Scripts extends React.PureComponent {
           [id]: {id}
         }
       }
-    }, this.save)
+    }, () => {
+      this.save()
+      this.edit(id)
+    })
   }
 
   remove (id) {
@@ -97,21 +100,20 @@ module.exports = class Scripts extends React.PureComponent {
       return {
         scripts: filter(script => script.id !== id, state.scripts)
       }
-    }, this.save)
+    }, () => this.save())
   }
 
   activate (id) {
     const script = this.state.scripts[id]
+    if (!script || !script.teardown || !script.teardown.trim()) {
+      return window.alert('i simply will not activate without a teardown')
+    }
     this.setState(state => ({
       activeScripts: {
         ...state.activeScripts,
         [id]: true
       }
     }))
-    if (!script || !script.teardown || !script.teardown.trim()) {
-      window.alert('i simply will not activate without a teardown')
-      return
-    }
     run(script.setup, script.id)
   }
 
