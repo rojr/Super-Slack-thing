@@ -25,12 +25,15 @@
     "eslint": "^4.1.1",
     "eslint-config-standard": "^10.2.1",
     "eslint-config-standard-react": "^5.0.0",
+    "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^7.1.0",
     "eslint-plugin-standard": "^3.0.1",
     "standard": "^10.0.2"
   },
   "dependencies": {
     "electron-context-menu": "^0.9.1",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "lodash": "^4.17.4"
   }
 }
