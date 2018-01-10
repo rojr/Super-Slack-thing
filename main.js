@@ -7,10 +7,8 @@ require('electron-context-menu')({
 let mainWindow
 
 function createWindow () {
-  mainWindow = new BrowserWindow({width: 800, height: 600})
+  mainWindow = new BrowserWindow({width: 800, height: 600, titleBarStyle: 'hiddenInset'})
   mainWindow.loadURL(`file://${__dirname}/index.html`)
-  mainWindow.webContents.openDevTools()
-
   mainWindow.on('closed', function () {
     mainWindow = null
   })

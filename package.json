@@ -4,7 +4,7 @@
   "description": "A minimal Electron application",
   "main": "main.js",
   "scripts": {
-    "start": "buble src/inject -o build/inject && browserify build/inject/index.js > build/inject.js && electron .",
+    "start": "buble src/inject -o build/inject --objectAssign && browserify build/inject/index.js > build/inject.js && electron .",
     "lint": "standard",
     "lint:fix": "standard --fix"
   },
@@ -22,10 +22,19 @@
     "browserify": "^14.4.0",
     "buble": "^0.15.2",
     "electron": "~1.6.2",
+    "eslint": "^4.1.1",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-config-standard-jsx": "^4.0.2",
+    "eslint-config-standard-react": "^5.0.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-standard": "^3.0.1",
     "standard": "^10.0.2"
   },
   "dependencies": {
     "electron-context-menu": "^0.9.1",
-    "jquery": "^3.2.1"
+    "jquery": "^3.2.1",
+    "lodash": "^4.17.4"
   }
 }
