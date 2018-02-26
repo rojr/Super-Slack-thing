@@ -1,7 +1,7 @@
 const STORE_KEY_SCRIPTS = 'scripts'
 const Panel = require('./Panel')
 const {React} = window
-const run = require('../../run-script')
+const run = require('../../runScript')
 const {filter} = require('lodash/fp')
 
 const generateId = () => Math.random().toString(36).slice(2)
